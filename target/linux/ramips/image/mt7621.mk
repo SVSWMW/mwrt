@@ -458,6 +458,7 @@ TARGET_DEVICES += buffalo_wsr-2533dhpl
 
 define Device/buffalo_wsr-600dhp
   $(Device/dsa-migration)
+  $(Device/uimage-lzma-loader)
   IMAGE_SIZE := 16064k
   DEVICE_VENDOR := Buffalo
   DEVICE_MODEL := WSR-600DHP
@@ -527,6 +528,7 @@ define Device/cudy_x6
   DEVICE_MODEL := X6
   UIMAGE_NAME := R13
   DEVICE_PACKAGES := kmod-mt7915-firmware -uboot-envtools
+  SUPPORTED_DEVICES += R13
 endef
 TARGET_DEVICES += cudy_x6
 
@@ -1355,6 +1357,16 @@ define Device/jcg_y2
   DEVICE_PACKAGES := kmod-mt7615-firmware kmod-usb3 -uboot-envtools
 endef
 TARGET_DEVICES += jcg_y2
+
+
+define Device/jdcloud_re-sp-01b
+  IMAGE_SIZE := 27328k
+  DEVICE_VENDOR := JDCloud
+  DEVICE_MODEL := RE-SP-01B
+  DEVICE_PACKAGES := kmod-fs-ext4 kmod-mt7603 kmod-mt7615e \
+	kmod-mt7615-firmware kmod-sdhci-mt7620 kmod-usb3
+endef
+TARGET_DEVICES += jdcloud_re-sp-01b
 
 define Device/keenetic_kn-3010
   $(Device/dsa-migration)

@@ -64,6 +64,7 @@ ramips_setup_interfaces()
 	glinet,gl-mt1300|\
 	iptime,a3002mesh|\
 	jcg,q20|\
+	jdcloud,re-sp-01b|\
 	lenovo,newifi-d1|\
 	mikrotik,routerboard-m33g|\
 	mts,wg430223|\
@@ -275,11 +276,6 @@ ramips_setup_macs()
 	netgear,wax202)
 		lan_mac=$(mtd_get_mac_ascii Config mac)
 		wan_mac=$(macaddr_add "$lan_mac" 1)
-		label_mac=$lan_mac
-		;;
-	raisecom,msg1500-x-00)
-		lan_mac=$(mtd_get_mac_ascii Config protest_lan_mac)
-		wan_mac=$(mtd_get_mac_ascii Config protest_wan_mac)
 		label_mac=$lan_mac
 		;;
 	yuncore,ax820)
