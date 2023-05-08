@@ -16,6 +16,8 @@ include $(INCLUDE_DIR)/u-boot.mk
 include $(INCLUDE_DIR)/package.mk
 include ../arm-trusted-firmware-rockchip/atf-version.mk
 
+DTC:=
+
 define U-Boot/Default
   BUILD_TARGET:=rockchip
   UENV:=default
@@ -81,6 +83,13 @@ define U-Boot/nanopi-r4s-rk3399
     friendlyarm_nanopi-r4s
 endef
 
+define U-Boot/nanopi-r4se-rk3399
+  $(U-Boot/Default/rk3399)
+  NAME:=NanoPi R4SE
+  BUILD_DEVICES:= \
+    friendlyarm_nanopi-r4se
+endef
+
 define U-Boot/nanopi-r4s-enterprise-rk3399
   $(U-Boot/Default/rk3399)
   NAME:=NanoPi R4S Enterprise Edition
@@ -126,6 +135,13 @@ define U-Boot/fastrhino-r68s-rk3568
     lunzn_fastrhino-r68s
 endef
 
+define U-Boot/mrkaio-m68s-rk3568
+  $(U-Boot/Default/rk3568)
+  NAME:=Mrkaio M68S
+  BUILD_DEVICES:= \
+    ezpro_mrkaio-m68s
+endef
+
 define U-Boot/nanopi-r5c-rk3568
   $(U-Boot/Default/rk3568)
   NAME:=FriendlyARM NanoPi R5C
@@ -142,6 +158,7 @@ endef
 
 UBOOT_TARGETS := \
   nanopi-r4s-rk3399 \
+  nanopi-r4se-rk3399 \
   nanopi-r4s-enterprise-rk3399 \
   rock-pi-4-rk3399 \
   rockpro64-rk3399 \
@@ -152,6 +169,7 @@ UBOOT_TARGETS := \
   roc-cc-rk3328 \
   fastrhino-r66s-rk3568 \
   fastrhino-r68s-rk3568 \
+  mrkaio-m68s-rk3568 \
   nanopi-r5c-rk3568 \
   nanopi-r5s-rk3568
 
@@ -161,12 +179,6 @@ UBOOT_MAKE_FLAGS += \
   PATH=$(STAGING_DIR_HOST)/bin:$(PATH) \
   BL31=$(STAGING_DIR_IMAGE)/$(ATF) \
   $(if $(DDR),ROCKCHIP_TPL=$(STAGING_DIR_IMAGE)/$(DDR))
-
-define Build/Configure
-	$(call Build/Configure/U-Boot)
-
-	$(SED) 's#CONFIG_MKIMAGE_DTC_PATH=.*#CONFIG_MKIMAGE_DTC_PATH="$(PKG_BUILD_DIR)/scripts/dtc/dtc"#g' $(PKG_BUILD_DIR)/.config
-endef
 
 define Build/InstallDev
 	$(INSTALL_DIR) $(STAGING_DIR_IMAGE)
