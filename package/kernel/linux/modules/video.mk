@@ -259,6 +259,47 @@ endef
 
 $(eval $(call KernelPackage,drm))
 
+
+define KernelPackage/drm-buddy
+  SUBMENU:=$(VIDEO_MENU)
+  TITLE:=A page based buddy allocator
+  DEPENDS:=@TARGET_x86 @DISPLAY_SUPPORT +kmod-drm @!LINUX_5_15
+  KCONFIG:=CONFIG_DRM_BUDDY
+  FILES:= $(LINUX_DIR)/drivers/gpu/drm/drm_buddy.ko
+  AUTOLOAD:=$(call AutoProbe,drm_buddy)
+endef
+
+$(eval $(call KernelPackage,drm-buddy))
+
+
+define KernelPackage/drm-display-helper
+  SUBMENU:=$(VIDEO_MENU)
+  TITLE:=DRM helpers for display adapters drivers
+  DEPENDS:=@DISPLAY_SUPPORT +kmod-drm +TARGET_x86:kmod-drm-buddy @!LINUX_5_15
+  KCONFIG:=CONFIG_DRM_DISPLAY_HELPER
+  FILES:=$(LINUX_DIR)/drivers/gpu/drm/display/drm_display_helper.ko
+  AUTOLOAD:=$(call AutoProbe,drm_display_helper)
+endef
+
+define KernelPackage/drm-display-helper/description
+  DRM helpers for display adapters drivers.
+endef
+
+$(eval $(call KernelPackage,drm-display-helper))
+
+
+define KernelPackage/drm-gem-shmem-helper
+  SUBMENU:=$(VIDEO_MENU)
+  TITLE:=GEM shmem helper functions
+  DEPENDS:=@DISPLAY_SUPPORT +kmod-drm
+  KCONFIG:=CONFIG_DRM_GEM_SHMEM_HELPER
+  FILES:=$(LINUX_DIR)/drivers/gpu/drm/drm_shmem_helper.ko
+  AUTOLOAD:=$(call AutoProbe,drm_shmem_helper)
+endef
+
+$(eval $(call KernelPackage,drm-gem-shmem-helper))
+
+
 define KernelPackage/drm-ttm
   SUBMENU:=$(VIDEO_MENU)
   TITLE:=GPU memory management subsystem
@@ -408,7 +449,7 @@ $(eval $(call KernelPackage,drm-imx-ldb))
 define KernelPackage/drm-lima
   SUBMENU:=$(VIDEO_MENU)
   TITLE:=Mali-4xx GPU support
-  DEPENDS:=@(TARGET_rockchip||TARGET_sunxi) +kmod-drm
+  DEPENDS:=@(TARGET_rockchip||TARGET_sunxi) +kmod-drm +!KERNEL_5_15:kmod-drm-gem-shmem-helper
   KCONFIG:= \
 	CONFIG_DRM_VGEM \
 	CONFIG_DRM_GEM_CMA_HELPER=y \
@@ -429,7 +470,7 @@ $(eval $(call KernelPackage,drm-lima))
 define KernelPackage/drm-panfrost
   SUBMENU:=$(VIDEO_MENU)
   TITLE:=DRM support for ARM Mali Midgard/Bifrost GPUs
-  DEPENDS:=@(TARGET_rockchip||TARGET_sunxi) +kmod-drm
+  DEPENDS:=@(TARGET_rockchip||TARGET_sunxi) +kmod-drm +!KERNEL_5_15:kmod-drm-gem-shmem-helper
   KCONFIG:=CONFIG_DRM_PANFROST
   FILES:= \
 	$(LINUX_DIR)/drivers/gpu/drm/panfrost/panfrost.ko \

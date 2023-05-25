@@ -79,7 +79,6 @@ define Device/ampedwireless_b1200ex
   SOC := mt7620a
   DEVICE_VENDOR := Amped Wireless
   DEVICE_MODEL := B1200EX
-  BLOCKSIZE := 4k
   IMAGE_SIZE := 7744k
   IMAGE/sysupgrade.bin := append-kernel | append-rootfs | \
 	edimax-header -s CSYS -m RN10 -f 0x70000 -S 0x01100000 | pad-rootfs | \
@@ -125,6 +124,7 @@ define Device/asus_rt-n12p
   DEVICE_VENDOR := ASUS
   DEVICE_MODEL := RT-N11P/RT-N12+/RT-N12Eb1
   SUPPORTED_DEVICES += rt-n12p
+  DEFAULT := n
 endef
 TARGET_DEVICES += asus_rt-n12p
 
@@ -201,13 +201,13 @@ define Device/comfast_cf-wr800n
   DEVICE_VENDOR := Comfast
   DEVICE_MODEL := CF-WR800N
   SUPPORTED_DEVICES += cf-wr800n
+  DEFAULT := n
 endef
 TARGET_DEVICES += comfast_cf-wr800n
 
 define Device/dlink_dch-m225
   $(Device/seama)
   SOC := mt7620a
-  BLOCKSIZE := 4k
   SEAMA_SIGNATURE := wapn22_dlink.2013gui_dap1320b
   IMAGE_SIZE := 6848k
   DEVICE_VENDOR := D-Link
@@ -252,6 +252,7 @@ define Device/dlink_dwr-116-a1
   DLINK_ROM_ID := DLK6E3803001
   DLINK_FAMILY_MEMBER := 0x6E38
   DLINK_FIRMWARE_SIZE := 0x7E0000
+  DEFAULT := n
 endef
 TARGET_DEVICES += dlink_dwr-116-a1
 
@@ -393,7 +394,6 @@ define Device/edimax_br-6478ac-v2
   DEVICE_VENDOR := Edimax
   DEVICE_MODEL := BR-6478AC
   DEVICE_VARIANT := V2
-  BLOCKSIZE := 64k
   IMAGE_SIZE := 7744k
   IMAGE/sysupgrade.bin := append-kernel | append-rootfs | \
 	edimax-header -s CSYS -m RN68 -f 0x70000 -S 0x01100000 | pad-rootfs | \
@@ -407,7 +407,6 @@ define Device/edimax_ew-7476rpc
   SOC := mt7620a
   DEVICE_VENDOR := Edimax
   DEVICE_MODEL := EW-7476RPC
-  BLOCKSIZE := 4k
   IMAGE_SIZE := 7744k
   IMAGE/sysupgrade.bin := append-kernel | append-rootfs | \
 	edimax-header -s CSYS -m RN79 -f 0x70000 -S 0x01100000 | pad-rootfs | \
@@ -420,7 +419,6 @@ define Device/edimax_ew-7478ac
   SOC := mt7620a
   DEVICE_VENDOR := Edimax
   DEVICE_MODEL := EW-7478AC
-  BLOCKSIZE := 4k
   IMAGE_SIZE := 7744k
   IMAGE/sysupgrade.bin := append-kernel | append-rootfs | \
 	edimax-header -s CSYS -m RN70 -f 0x70000 -S 0x01100000 | pad-rootfs | \
@@ -433,7 +431,6 @@ define Device/edimax_ew-7478apc
   SOC := mt7620a
   DEVICE_VENDOR := Edimax
   DEVICE_MODEL := EW-7478APC
-  BLOCKSIZE := 4k
   IMAGE_SIZE := 7744k
   IMAGE/sysupgrade.bin := append-kernel | append-rootfs | \
 	edimax-header -s CSYS -m RN75 -f 0x70000 -S 0x01100000 | pad-rootfs | \
@@ -458,7 +455,6 @@ TARGET_DEVICES += elecom_wrh-300cr
 define Device/engenius_epg600
   $(Device/uimage-lzma-loader)
   SOC := mt7620a
-  BLOCKSIZE := 4k
   IMAGE_SIZE := 15616k
   IMAGES += factory.dlf
   IMAGE/factory.dlf := $$(sysupgrade_bin) | check-size | \
@@ -472,7 +468,6 @@ TARGET_DEVICES += engenius_epg600
 
 define Device/engenius_esr600
   SOC := mt7620a
-  BLOCKSIZE := 64k
   IMAGE_SIZE := 15616k
   IMAGES += factory.dlf
   IMAGE/factory.dlf := $$(sysupgrade_bin) | check-size | \
@@ -771,7 +766,6 @@ TARGET_DEVICES += microduino_microwrt
 define Device/netcore_nw5212
   SOC := mt7620a
   IMAGE_SIZE := 16064k
-  BLOCKSIZE := 4k
   DEVICE_VENDOR := Netcore
   DEVICE_MODEL := NW5212
   DEVICE_PACKAGES := kmod-usb2 kmod-usb-ohci
@@ -782,7 +776,6 @@ define Device/netgear_ex2700
   SOC := mt7620a
   NETGEAR_HW_ID := 29764623+4+0+32+2x2+0
   NETGEAR_BOARD_ID := EX2700
-  BLOCKSIZE := 4k
   IMAGE_SIZE := 3776k
   IMAGES += factory.bin
   KERNEL := $(KERNEL_DTB) | uImage lzma | pad-offset 64k 64 | \
@@ -798,7 +791,6 @@ TARGET_DEVICES += netgear_ex2700
 define Device/netgear_ex3700
   SOC := mt7620a
   NETGEAR_BOARD_ID := U12H319T00_NETGEAR
-  BLOCKSIZE := 4k
   IMAGE_SIZE := 7744k
   IMAGES += factory.chk
   IMAGE/factory.chk := $$(sysupgrade_bin) | check-size | netgear-chk
@@ -812,7 +804,6 @@ TARGET_DEVICES += netgear_ex3700
 define Device/netgear_ex6120
   SOC := mt7620a
   NETGEAR_BOARD_ID := U12H319T30_NETGEAR
-  BLOCKSIZE := 4k
   IMAGE_SIZE := 7744k
   IMAGES += factory.chk
   IMAGE/factory.chk := $$(sysupgrade_bin) | check-size | netgear-chk
@@ -825,7 +816,6 @@ TARGET_DEVICES += netgear_ex6120
 define Device/netgear_ex6130
   SOC := mt7620a
   NETGEAR_BOARD_ID := U12H319T50_NETGEAR
-  BLOCKSIZE := 4k
   IMAGE_SIZE := 7744k
   IMAGES += factory.chk
   IMAGE/factory.chk := $$(sysupgrade_bin) | check-size | netgear-chk
@@ -838,7 +828,6 @@ TARGET_DEVICES += netgear_ex6130
 define Device/netgear_jwnr2010-v5
   $(Device/netgear_sercomm_nor)
   SOC := mt7620n
-  BLOCKSIZE := 4k
   IMAGE_SIZE := 3840k
   DEVICE_MODEL := JWNR2010
   DEVICE_VARIANT := v5
@@ -854,7 +843,6 @@ TARGET_DEVICES += netgear_jwnr2010-v5
 define Device/netgear_pr2000
   $(Device/netgear_sercomm_nor)
   SOC := mt7620n
-  BLOCKSIZE := 4k
   IMAGE_SIZE := 15488k
   DEVICE_MODEL := PR2000
   DEVICE_PACKAGES := kmod-usb2 kmod-usb-ohci
@@ -871,7 +859,6 @@ define Device/netgear_wn3000rp-v3
   IMAGE_SIZE := 7872k
   NETGEAR_HW_ID := 29764836+8+0+32+2x2+0
   NETGEAR_BOARD_ID := WN3000RPv3
-  BLOCKSIZE := 4k
   IMAGES += factory.bin
   KERNEL := $(KERNEL_DTB) | uImage lzma | pad-offset 64k 64 | \
 	append-uImage-fakehdr filesystem
@@ -880,6 +867,7 @@ define Device/netgear_wn3000rp-v3
   DEVICE_MODEL := WN3000RP
   DEVICE_VARIANT := v3
   SUPPORTED_DEVICES += wn3000rpv3
+  DEFAULT := n
 endef
 TARGET_DEVICES += netgear_wn3000rp-v3
 
@@ -888,7 +876,6 @@ define Device/netgear_wn3100rp-v2
   IMAGE_SIZE := 7872k
   NETGEAR_HW_ID := 29764883+8+0+32+2x2+0
   NETGEAR_BOARD_ID := WN3100RPv2
-  BLOCKSIZE := 4k
   IMAGES += factory.bin
   KERNEL := $(KERNEL_DTB) | uImage lzma | pad-offset 64k 64 | \
 	append-uImage-fakehdr filesystem
@@ -912,7 +899,6 @@ TARGET_DEVICES += netis_wf2770
 
 define Device/nexx_wt3020-4m
   SOC := mt7620n
-  BLOCKSIZE := 4k
   IMAGE_SIZE := 3776k
   IMAGES += factory.bin
   IMAGE/factory.bin := $$(sysupgrade_bin) | check-size | \
@@ -1118,7 +1104,6 @@ TARGET_DEVICES += sercomm_na930
 
 define Device/sitecom_wlr-4100-v1-002
   SOC := mt7620a
-  BLOCKSIZE := 4k
   IMAGE_SIZE := 7744k
   IMAGES += factory.dlf
   IMAGE/factory.dlf := $$(sysupgrade_bin) | check-size | \
@@ -1255,7 +1240,6 @@ TARGET_DEVICES += trendnet_tew-810dr
 define Device/vonets_var11n-300
   SOC := mt7620n
   IMAGE_SIZE := 3776k
-  BLOCKSIZE := 4k
   DEVICE_VENDOR := Vonets
   DEVICE_MODEL := VAR11N-300
   DEFAULT := n
@@ -1469,6 +1453,7 @@ define Device/zbtlink_zbt-wr8305rt
   DEVICE_MODEL := ZBT-WR8305RT
   DEVICE_PACKAGES := kmod-usb2 kmod-usb-ohci
   SUPPORTED_DEVICES += zbt-wr8305rt
+  DEFAULT := n
 endef
 TARGET_DEVICES += zbtlink_zbt-wr8305rt
 

@@ -892,6 +892,22 @@ endef
 $(eval $(call KernelPackage,iavf))
 
 
+define KernelPackage/ice
+  SUBMENU:=$(NETWORK_DEVICES_MENU)
+  TITLE:=Intel(R) Ethernet Controller E810 Series support
+  DEPENDS:=@PCI_SUPPORT +kmod-ptp
+  KCONFIG:=CONFIG_ICE
+  FILES:=$(LINUX_DIR)/drivers/net/ethernet/intel/ice/ice.ko
+  AUTOLOAD:=$(call AutoProbe,ice)
+endef
+
+define KernelPackage/ice/description
+  Kernel modules for Intel(R) Ethernet Controller E810 Series
+endef
+
+$(eval $(call KernelPackage,ice))
+
+
 define KernelPackage/b44
   TITLE:=Broadcom 44xx driver
   KCONFIG:=CONFIG_B44
@@ -1392,6 +1408,28 @@ endef
 $(eval $(call KernelPackage,qlcnic))
 
 
+define KernelPackage/qede
+  SUBMENU:=$(NETWORK_DEVICES_MENU)
+  DEPENDS:=@PCI_SUPPORT +kmod-ptp
+  TITLE:=QLogic FastLinQ 10/25/40/100Gb Ethernet NIC device support
+  KCONFIG:= \
+	CONFIG_QED \
+	CONFIG_QED_SRIOV=y \
+	CONFIG_QEDE
+  FILES:= \
+	$(LINUX_DIR)/drivers/net/ethernet/qlogic/qed/qed.ko \
+	$(LINUX_DIR)/drivers/net/ethernet/qlogic/qede/qede.ko
+  AUTOLOAD:=$(call AutoProbe,qed qede)
+endef
+
+define KernelPackage/qede/description
+  This driver supports QLogic FastLinQ 25/40/100Gb Ethernet NIC
+  devices.
+endef
+
+$(eval $(call KernelPackage,qede))
+
+
 define KernelPackage/sfp
   SUBMENU:=$(NETWORK_DEVICES_MENU)
   TITLE:=SFP cage support
@@ -1468,13 +1506,15 @@ $(eval $(call KernelPackage,sfc-falcon))
 define KernelPackage/wwan
   SUBMENU:=$(NETWORK_DEVICES_MENU)
   TITLE:=WWAN Driver Core
-  KCONFIG:=CONFIG_WWAN
+  KCONFIG:= \
+  CONFIG_WWAN \
+  CONFIG_WWAN_DEBUGFS=y@ge5.17
   FILES:=$(LINUX_DIR)/drivers/net/wwan/wwan.ko
   AUTOLOAD:=$(call AutoProbe,wwan)
 endef
 
 define KernelPackage/wwan/description
- his driver provides a common framework for WWAN drivers.
+ This driver provides a common framework for WWAN drivers.
 endef
 
 $(eval $(call KernelPackage,wwan))
