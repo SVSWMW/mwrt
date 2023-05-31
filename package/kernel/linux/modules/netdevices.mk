@@ -1354,12 +1354,13 @@ define KernelPackage/mlx5-core
 	CONFIG_MLX5_EN_IPSEC=n \
 	CONFIG_MLX5_EN_RXNFC=y \
 	CONFIG_MLX5_EN_TLS=n \
-	CONFIG_MLX5_ESWITCH=n \
+	CONFIG_MLX5_ESWITCH=y \
 	CONFIG_MLX5_FPGA=n \
 	CONFIG_MLX5_FPGA_IPSEC=n \
 	CONFIG_MLX5_FPGA_TLS=n \
 	CONFIG_MLX5_MPFS=y \
 	CONFIG_MLX5_SW_STEERING=n \
+	CONFIG_MLX5_CLS_ACT=n \
 	CONFIG_MLX5_TC_CT=n \
 	CONFIG_MLX5_TLS=n
   AUTOLOAD:=$(call AutoProbe,mlx5_core)
@@ -1410,12 +1411,14 @@ $(eval $(call KernelPackage,qlcnic))
 
 define KernelPackage/qede
   SUBMENU:=$(NETWORK_DEVICES_MENU)
-  DEPENDS:=@PCI_SUPPORT +kmod-ptp
+  DEPENDS:=@PCI_SUPPORT +kmod-ptp +kmod-lib-crc8 +kmod-lib-zlib-inflate
   TITLE:=QLogic FastLinQ 10/25/40/100Gb Ethernet NIC device support
   KCONFIG:= \
 	CONFIG_QED \
 	CONFIG_QED_SRIOV=y \
-	CONFIG_QEDE
+	CONFIG_QEDE \
+	CONFIG_QEDF=n \
+	CONFIG_QEDI=n
   FILES:= \
 	$(LINUX_DIR)/drivers/net/ethernet/qlogic/qed/qed.ko \
 	$(LINUX_DIR)/drivers/net/ethernet/qlogic/qede/qede.ko
