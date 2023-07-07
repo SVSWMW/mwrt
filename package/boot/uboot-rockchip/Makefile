@@ -75,6 +75,13 @@ define U-Boot/roc-cc-rk3328
     firefly_roc-rk3328-cc
 endef
 
+define U-Boot/rock-pi-e-rk3328
+  $(U-Boot/Default/rk3328)
+  NAME:=Rock Pi E
+  BUILD_DEVICES:= \
+    radxa_rock-pi-e
+endef
+
 # RK3399 boards
 
 define U-Boot/Default/rk3399
@@ -200,6 +207,7 @@ UBOOT_TARGETS := \
   orangepi-r1-plus-rk3328 \
   orangepi-r1-plus-lts-rk3328 \
   roc-cc-rk3328 \
+  rock-pi-e-rk3328 \
   fastrhino-r66s-rk3568 \
   fastrhino-r68s-rk3568 \
   mrkaio-m68s-rk3568 \
@@ -209,19 +217,15 @@ UBOOT_TARGETS := \
 
 UBOOT_CONFIGURE_VARS += USE_PRIVATE_LIBGCC=yes
 
+UBOOT_CUSTOMIZE_CONFIG := \
+	--disable SPL_FIT_SIGNATURE \
+	--disable TOOLS_MKEFICAPSULE \
+	--set-str MKIMAGE_DTC_PATH $(PKG_BUILD_DIR)/scripts/dtc/dtc
+
 UBOOT_MAKE_FLAGS += \
   PATH=$(STAGING_DIR_HOST)/bin:$(PATH) \
   BL31=$(STAGING_DIR_IMAGE)/$(ATF) \
   $(if $(DDR),ROCKCHIP_TPL=$(STAGING_DIR_IMAGE)/$(DDR))
-
-define Build/Configure
-	$(call Build/Configure/U-Boot)
-
-	sed -i $(PKG_BUILD_DIR)/.config \
-	    -e 's#CONFIG_MKIMAGE_DTC_PATH=.*#CONFIG_MKIMAGE_DTC_PATH="$(PKG_BUILD_DIR)/scripts/dtc/dtc"#g' \
-	    -e 's|CONFIG_SPL_FIT_SIGNATURE=y|# CONFIG_SPL_FIT_SIGNATURE is not set|g' \
-	    -e 's|CONFIG_TOOLS_MKEFICAPSULE=y|# CONFIG_TOOLS_MKEFICAPSULE is not set|g'
-endef
 
 define Build/InstallDev
 	$(INSTALL_DIR) $(STAGING_DIR_IMAGE)
