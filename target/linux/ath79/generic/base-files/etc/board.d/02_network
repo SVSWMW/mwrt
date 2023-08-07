@@ -111,7 +111,9 @@ ath79_setup_interfaces()
 	ubnt,powerbeam-5ac-gen2|\
 	ubnt,powerbeam-m2-xw|\
 	ubnt,powerbeam-m5-xw|\
+	ubnt,powerbridge-m|\
 	ubnt,rocket-5ac-lite|\
+	ubnt,rocket-m|\
 	ubnt,unifiac-lite|\
 	ubnt,unifiac-lr|\
 	ubnt,unifiac-mesh|\
@@ -151,6 +153,14 @@ ath79_setup_interfaces()
 		# port 6 (internal) is the power-line port
 		ucidef_add_switch "switch0" \
 			"0@eth0" "1:lan:1" "2:lan:2" "3:lan:3" "6:lan:4"
+		;;
+	asus,zenwifi-cd6n)
+		ucidef_add_switch "switch0" \
+			"0@eth0" "1:lan:1" "4:lan:2"
+		;;
+	asus,zenwifi-cd6r)
+		ucidef_add_switch "switch0" \
+			"0@eth0" "1:lan:2" "3:lan:1" "4:lan:3" "2:wan"
 		;;
 	atheros,db120)
 		ucidef_add_switch "switch0" \
@@ -381,6 +391,8 @@ ath79_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"0@eth1" "1:lan"
 		;;
+	asus,rt-ac59u|\
+	asus,rt-ac59u-v2|\
 	mercury,mw4530r-v1|\
 	tplink,archer-a7-v5|\
 	tplink,archer-a9-v6|\
@@ -794,6 +806,8 @@ ath79_setup_macs()
 		wan_mac=$(mtd_get_mac_text mac 0x18)
 		label_mac=$wan_mac
 		;;
+	ubnt,powerbridge-m|\
+	ubnt,rocket-m|\
 	ubnt,unifi)
 		label_mac=$(cat /sys/class/ieee80211/phy0/macaddress)
 		;;
